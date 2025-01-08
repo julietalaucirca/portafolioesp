@@ -81,7 +81,7 @@ Partiendo de un Modelo de Elevación Digital, en este caso para la cuenca del R�
 
 <img src="hillshade.png" alt="Hillshade" width="300"/> 2. Herramienta Hillshade, utilizada para resaltar las elevaciones del DEM según la orientación de la luz solar.
 
-<img src="pendientes.png" alt="Pendientes" width="300"/> 3. Creación de ráster de pendientes con la herramienta Slope.
+<img src="Pendientes.png" alt="Pendientes" width="300"/> 3. Creación de ráster de pendientes con la herramienta Slope.
 
 <img src="clasificacion pendientes.png" alt="Clasificación de Pendientes" width="300"/> 4. Clasificación de pendientes mediante clasificación ráster.
 

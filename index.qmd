@@ -1,0 +1,421 @@
+---
+title: "Portfolio- Geógrafa y Analista GIS"
+author: "Julieta Laucirica"
+toc: true
+format:
+  html:
+    code-fold: true
+    theme: minty
+    fontcolor: "#212529" 
+    monofont: "#641e16"
+    backgroundcolor: "#F8F9FA"
+editor: visual
+lang: es
+---
+
+<img src="foto_cv.jpg" width="200"/>
+
+## Introducción
+
+De Bahía Blanca, Argentina. Actualmente residiendo en San José, Costa Rica.
+
+Soy geógrafa, egresada de la Universidad Nacional del Sur (2009-2018). En 2014, fui beneficiada con la prestigiosa beca "Líderes Emergentes de las Américas"([ELAP](https://www.educanada.ca/scholarships-bourses/can/institutions/elap-pfla.aspx?lang=eng)) de Canadá lo que me permitió realizar un cuatrimestre en la Université du Québec à Montréal, en la ciudad de Montreal. Entre 2015 y 2024, residí en la Ciudad Autónoma de Buenos Aires, donde desarrollé mi experiencia profesional en el campo de los Sistemas de Información Geográfica (GIS) y la docencia a nivel secundario. Mi experiencia más destacada fue en el Instituto Geográfico Nacional, donde trabajé entre 2018 y 2024.
+
+
+Mi vínculo con Costa Rica se remonta a mi infancia. Entre 2002 y 2006, crecí en la localidad de Puerto Viejo, Limón, y asistí a la Escuela Complementaria de Cahuita, una etapa que marcó mi interés por los territorios y los recursos naturales. Actualmente, me encuentro en San José, donde estoy cursando la Maestría en Gestión de Recursos Hídricos para Latinoamérica y el Caribe como becaria del Servicio Alemán de Intercambio Académico ([DAAD](https://www.daad-costa-rica.org/es/)).
+
+Mi interés en la gestión de recursos hídricos comenzó con el desarrollo de mi tesis de licenciatura: *“Calidad del Agua y Huella Hídrica en el Sudoeste Bonaerense. Los casos de estudio: Chasicó y Monte Hermoso, Provincia de Buenos Aires, Argentina”*. Durante la maestría, he profundizado mis conocimientos y adquirido experiencia práctica en diversas áreas clave, tales como:
+
+-   Programación en R
+
+-   Admistración de proyectos
+
+-   Monitoreo ambiental
+
+-   Sistemas de información geográfica (avanzado)
+
+-   Gestión Integrada de Recursos Hídricos
+
+Aunque mi especialización está centrada en los recursos hídricos, valoro la diversidad temática y la oportunidad de explorar nuevos enfoques, herramientas y metodologías. Siempre abordo los desafíos desde una perspectiva territorial y espacial, combinando curiosidad y rigor académico.
+
+A continuación, podrás encontrar un resumen de las herramientas con las que trabajo y las áreas en las que me estoy especializando.
+
+
+## Herramientas utilizadas en R
+
+En el siguiente bloque de código se muestran la mayoría de los paquetes ráster que utilizo en R, tanto para este proyecto como en general.
+
+```{r}
+#|label: cargapaquetes
+#|message: false
+#|warning: false
+#|collapse: true
+
+# Paquetes geoespaciales
+library (terra)
+library (geodata)
+library (leaflet)
+library (sf)
+library (spData)
+
+# Paquetes de visualización y manejo de datos
+library (plotly)
+library (ggplot2)
+library(RColorBrewer)
+
+```
+
+
+## Trabajo con Sistemas de Información Geográfica
+
+El trabajo con Sistemas de Información puede ser con información geoespacial ráster y vectorial. La información ráster, de característica contínua puede contener información diversa: altitud (DEM), vegetación (NDVI), temperaturas, precipitaciones. A partir de estos datos se pueden realizar geoprocesos como calcular pendientes, comparar coberturas vegetales y otros usos del suelo en el transcurso del tiempo. En cuanto a datos climáticos, se puede utilizar fuentes actuales, así como utilizar modelos futuros. En cuanto a la información vectorial, se observan en forma de puntos, líneas y polígonos y también, abarca una diversidad de temáticas que se pueden representar.
+
+### Ejemplos hechos en Sistemas de Información Geográfica
+
+#### Modelos de elevación digital y su procesamiento
+
+Partiendo de un Modelo de Elevación Digital, en este caso para la cuenca del Río Tárcoles. Los siguientes procesos se realizaron con el software QGIS 3.34 utilizando las herramientas: Fill Sinks, Slope, Reclasificación ráster y Channe Network and Drainage Basins. Dichas operaciones pueden replicarse en ArcGIS Pro.
+
+::: image-grid
+<img src="fill sinks.png" alt="Fill Sinks" width="300"/> 1. Herramienta Fill Sinks utilizada para eliminar sumideros en el DEM. Es una herramienta de corrección.
+
+<img src="hillshade.png" alt="Hillshade" width="300"/> 2. Herramienta Hillshade, utilizada para resaltar las elevaciones del DEM según la orientación de la luz solar.
+
+<img src="pendientes.png" alt="Pendientes" width="300"/> 3. Creación de ráster de pendientes con la herramienta Slope.
+
+<img src="clasificacion pendientes.png" alt="Clasificación de Pendientes" width="300"/> 4. Clasificación de pendientes mediante clasificación ráster.
+
+<img src="cuencas y cursos de agua.png" alt="Cuencas y Cursos de Agua" width="300"/> 5. Delimitación de cuencas y trazado de cursos de agua
+:::
+
+#### Ejemplos de procesamiento de información ráster
+
+Algunos procesamientos realizados recientemente tienen relación con los resultados que se pueden obtener utilizando la calculadora ráster de un Sistema de Información Geográfico.
+
+-   NDVI (Indice de Vegetación de Diferencia Normalizada). Utiliza las bandas de Infrarrojo cercano y del rojo con la siguiente fórmula $$NDVI= (NIR-ROJO)/(NIR+ROJO)$$
+
+    El NDVI obtiene valores entre -1 y 1. Los valores negativos más cercanos a -1 indican agua, nubes y/o nieve. Los valores alrededor de 0 indican suelo desnudo, rocas o arena. Entre 0.2 y 0.3 señalan pasturas y arbustos. Por ultimo, los valores mayores a 0.6 muestran bosques húmedos o tropicales.
+
+```{r}
+#| label: cargatiff2
+#| message: false
+#| warning: false
+#| collapse: true 
+
+
+# Ruta del archivo TIFF
+file_path <- "Imagenes/ndvi.tif"
+
+# Leer el archivo TIFF con terra
+ndvi <- rast(file_path)
+
+ndvi_reducido <- aggregate(ndvi, fact = 3)
+
+# Visualizar el raster en un mapa
+colores_ndvi <- colorNumeric(
+  palette = "PuBuGn",
+  values(ndvi_reducido),
+  na.color = "transparent"
+)
+
+leaflet() |> 
+  addTiles(group = "Mapa general") |>
+  addProviderTiles(
+    providers$Esri.WorldImagery, 
+    group = "Imágenes satelitales"
+  ) |>
+   addProviderTiles(
+    providers$CartoDB.Positron, 
+    group = "Mapa blanco"
+  ) |>  
+  addRasterImage(
+    ndvi_reducido,
+    colors = colores_ndvi,
+    opacity = 0.6,
+    group = "NDVI"
+  ) |>
+    addLegend(
+    title = "Indice de diferencia de vegetación normalizada",
+    values = values(ndvi_reducido),
+    pal = colores_ndvi,
+    position = "bottomleft",
+    group = "NDVI"
+  ) |>
+  addLayersControl(
+    baseGroups = c("Mapa general", "Mapa blanco"),
+    overlayGroups = c("NDVI")
+  )
+```
+
+
+-   Escurrimiento de una cuenca. Partiendo de información ráster de precipitaciones y altitud se pudo estimar mediante un flujo de operaciones en la calculadora ráster. En este caso se realizó el cálculo del escurrimiento en ArcGIS Pro, para la cuenca del Río Bananito, en la provincia de Limón, Costa Rica. Los óvalos celestes representan los *inputs*, de precipitaciones y altura. Los cuadros amarillos representan los cálculos realizados en la calculadora ráster con las fórmulas correspondientes para el resultado buscado. Por último los óvalos verdes representan los TIF que resultan del procesamiento en la calculadora ráster.
+
+<center><img src="flujo_escurrimiento.png" alt="Diagrama de cálculo de escurrimiento m^3/s"/></center>
+
+1.  En primer lugar se importan los archivos TIF que resultaron del proceso ilustrado en la imagen anterior. Se parte de los ráster de altura y precipitaciones para la cuenca para obtener el dato de temperatura.
+2.  Con el raster de temperatura se calcula la evapotranspiración potencial. Para obtener la evapotranspiración real se utiliza la evapotranspiración potencial y las precipitaciones.
+3.  La ETA grafica la relación que existe entre la Evapotranspiración real y la potencial.
+4.  Finalmente, el escurrimiento se obtiene con la precipitación, la temperatura y la ETA.
+
+```{r}
+#| label: tiffescurrimiento
+#| message: false
+#| warning: false
+#| collapse: true 
+
+# Importar archivos TIF procesados en ArcGIS y lectura del ráster con Terra
+
+file_path <- "escurrimiento/bananitodem.tif"
+
+dem_bananito <- rast(file_path)
+
+file_path2 <- "escurrimiento/escurrimiento.tif"
+
+escurrimiento_bananito <- rast(file_path2)
+
+file_path3 <- "escurrimiento/evaptRbananito.tif"
+
+evapotran_real <- rast(file_path3)
+
+file_path4 <- "escurrimiento/evtrpbananito.tif"
+
+evapotran_poten <- rast(file_path4)
+
+file_path5 <- "escurrimiento/pptbananito.tif"
+
+precipitacion <- rast(file_path5)
+
+file_path6 <- "escurrimiento/tempbananito.tif"
+temperatura <- rast(file_path6)
+
+```
+
+```{r}
+#| label: mapaescurrimiento
+#| message: false
+#| warning: false
+#| collapse: true
+
+# Asignación de paletas de colores para los raster
+colores_precipitacion <- colorNumeric(
+  palette = "PuBu",
+  values(precipitacion),
+  na.color = "transparent"
+)
+
+colores_temp <- colorNumeric(
+  palette = "OrRd",
+  values(temperatura),
+  na.color = "transparent"
+)
+
+colores_escur <- colorNumeric(
+  palette = "PuRd",
+  values(escurrimiento_bananito),
+  na.color = "transparent"
+)
+
+colores_evReal <- colorNumeric(
+  palette = "Reds",
+  values(evapotran_real),
+  na.color = "transparent"
+)
+
+colores_evpot <- colorNumeric(
+  palette = "Reds",
+  values(evapotran_poten),
+  na.color = "transparent"
+)
+
+colores_dem <- colorNumeric(
+  palette = "Greys",
+  values(dem_bananito),
+  na.color = "transparent"
+)
+
+# Mapa de visualización de productos ráster
+leaflet() |> 
+  addTiles(group = "Mapa general") |>
+  addProviderTiles(
+    providers$Esri.WorldImagery, 
+    group = "Imágenes satelitales"
+  ) |>
+   addProviderTiles(
+    providers$CartoDB.Positron, 
+    group = "Mapa blanco"
+  ) |>  
+  addRasterImage(
+    dem_bananito,
+    colors = colores_dem,
+    opacity = 0.6,
+    group = "DEM"
+  ) |>
+  addRasterImage(
+    precipitacion,
+    colors = colores_precipitacion,
+    opacity = 0.6,
+    group = "Precipitación"
+  ) |>
+  addRasterImage(
+    escurrimiento_bananito,
+    colors = colores_escur,
+    opacity = 0.6,
+    group = "Escurrimiento"
+  ) |>
+  addRasterImage(
+    evapotran_real,
+    colors = colores_evReal,
+    opacity = 0.6,
+    group = "Evapotranspiración Real"
+  ) |>
+  addRasterImage(
+    evapotran_poten,
+    colors = colores_evpot,
+    opacity = 0.6,
+    group = "Evapotranspiración Potencial"
+  ) |>
+  addRasterImage(
+    temperatura,
+    colors = colores_temp,
+    opacity = 0.6,
+    group = "Temperatura"
+  ) |>
+  addLayersControl(
+    baseGroups = c("Mapa general", "Mapa blanco"),
+    overlayGroups = c("DEM","Precipitación","Escurrimiento","Evapotranspiración Real", "Evapotranspiración Potencial", "Temperatura" )
+  )
+  
+```
+
+#### Visualización de datos en un mapa
+
+Además de la información proveniente de carpetas locales, se pueden utilizar datos provenientes de paquetes de R como es el caso de Geodata. A continuación se muestra un ejemplo de carga de datos ráster proveniente de Geodata y un shapefile proveniente de un archivo local, visualizado en Leaflet.
+
+```{r}
+#| label: datosaltitud
+#| message: false
+#| warning: false
+#| collapse: true
+
+# Leer datos de altitud con la función elevation_global
+
+altitud <- elevation_global(res=10, path= tempdir())
+names (altitud)
+```
+
+En este bloque se utiliza el límite de Costa Rica para recortar el DEM obtenido con *elevation_global*.
+
+```{r}
+#| label: areadeinteres
+#| message: false
+#| warning: false
+#| collapse: true
+
+# Se obtiene el limite administrativo de Costa Rica con la función GADM 
+
+pais <- gadm("Costa Rica", level = 0, path = tempdir())
+
+altitud_CR <- crop(altitud, pais)
+
+```
+
+Este bloque lee el shapefile de cuencas de Costa Rica archivado localmente.
+
+```{r}
+#| label: shapefile
+#| message: false
+#| warning: false
+#| collapse: true
+
+# Lectura de shapefile guardado localmente
+shapefile_path <- "shapefiles/CuencasCR.shp"
+cuenca<- st_read(shapefile_path)
+
+# Conversión de la proyección 5367 a 4326
+cuencas <- st_transform(cuenca, crs = 4326)
+```
+
+El bloque a continuación utiliza Leaflet para mostrar el raster de altitud con los polígonos de cuencas hidrográficas.
+
+```{r}
+#| label: visualizacionleaflet
+#| message: false
+#| warning: false
+#| collapse: true
+
+
+# Paleta de colores de altitud
+
+colores_altitud <- colorNumeric(
+  palette = "YlOrBr",
+  values(altitud_CR$wc2.1_10m_elev),
+  na.color = "transparent"
+)
+
+
+leaflet() |>
+  addTiles(group = "Mapa general") |>
+  addProviderTiles(
+    providers$Esri.WorldImagery, 
+    group = "Imágenes satelitales"
+  ) |>
+  addProviderTiles(
+    providers$CartoDB.Positron, 
+    group = "Mapa blanco"
+  ) |>  
+  addRasterImage(
+    altitud_CR$wc2.1_10m_elev,
+    colors = colores_altitud,
+    opacity = 0.6,
+    group = "Altitud"
+  ) |>
+ addPolygons(
+    data = cuencas,
+    color = "#009ACD",
+    fillOpacity = 0,
+    group = "Cuencas",
+    popup = ~paste(
+      paste0("<strong> Cuenca: </strong>", NOMBRE), 
+      sep = '<br/>'
+    )
+  ) |>
+  addLegend(
+    title = "Altitud",
+    values = values(altitud_CR$wc2.1_10m_elev),
+    pal = colores_altitud,
+    position = "bottomleft",
+    group = "Altitud"
+  ) |>
+  addLayersControl(
+    # control de capas
+    baseGroups = c("Mapa general", "Imágenes satelitales", "Mapa blanco"),
+    overlayGroups = c("Altitud", "Cuencas" )
+  )
+
+```
+
+## Trabajos con Programación en R
+
+Mis conocimientos en R se consolidaron a través del curso Programación en R, cursado como parte de la Maestría en Gestión Integrada de Recursos Hídricos. A continuación, presento los enlaces a los trabajos realizados durante este curso, los cuales ilustran el uso de diversas herramientas y el análisis de datos aplicados a temáticas ambientales.
+
+Los proyectos incluyen el análisis de "nichos ecológicos" de especies animales seleccionadas, basados en registros de avistamiento y modelos de probabilidad de presencia en función de condiciones climáticas, como precipitación y temperatura (tanto actuales como proyectadas). Además, se empleó la herramienta Maxent para la elaboración de modelos estadísticos que describen la distribución potencial de las especies.
+
+El último enlace incluye ejemplos de análisis estadístico y visualización de datos con las librerías GGplot2 y Plotly en R, demostrando su capacidad para graficar y crear visualizaciones interactivas.
+
+-   [Distribución de la serpiente Oropel o “Bothriechis schlegelii”](https://julietalaucirca.github.io/Oropelproyectofinal/)
+-   [Análisis del nicho biológico de la Danta Centroamericana (Tapirus bairdii)](https://julietalaucirca.github.io/presenciadanta/)
+-   [Ejemplos de GGplot2 y Plotly](https://julietalaucirca.github.io/ggplot2/)
+
+## Perspectivas para el futuro y objetivos
+
+En el presente, además de fortalecer y profundizar mis conocimientos en las herramientas mencionadas, estoy en proceso de capacitación en tecnologías avanzadas para el manejo y análisis de información geoespacial, con un enfoque especial en Python y Google Earth Engine.
+
+Mis objetivos profesionales se centran en contribuir activamente al desarrollo de proyectos institucionales, comunitarios e individuales. Aspiro a aplicar mis conocimientos científicos y técnicos para diseñar soluciones innovadoras y sostenibles que aborden desafíos territoriales y ambientales. Estos objetivos están guiados por tres valores fundamentales: creatividad, claridad y compromiso con la innovación.
+
+## Contacto
+
+Las vías de comunicación por las cuales contactarse son:
+
+- [Linkedin](www.linkedin.com/in/julieta-laucirica)
+- Mail: julieta.laucirica@gmail.com
+- Teléfono: +(506) 8664-8591

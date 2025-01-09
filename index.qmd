@@ -396,7 +396,7 @@ leaflet() |>
 ```
 
 ::: callout-note
-Haciendo click sobre un polígono de la cuenca se puede observar su nombre.
+Haciendo click sobre un polígono de cuenca se puede ver su nombre.
 :::
 
 

@@ -148,6 +148,7 @@ leaflet() |>
 ```
 
 
+
 -   Escurrimiento de una cuenca. Partiendo de información ráster de precipitaciones y altitud se pudo estimar mediante un flujo de operaciones en la calculadora ráster. En este caso se realizó el cálculo del escurrimiento en ArcGIS Pro, para la cuenca del Río Bananito, en la provincia de Limón, Costa Rica. Los óvalos celestes representan los *inputs*, de precipitaciones y altura. Los cuadros amarillos representan los cálculos realizados en la calculadora ráster con las fórmulas correspondientes para el resultado buscado. Por último los óvalos verdes representan los TIF que resultan del procesamiento en la calculadora ráster.
 
 <center><img src="flujo_escurrimiento.png" alt="Diagrama de cálculo de escurrimiento m^3/s"/></center>
@@ -393,6 +394,13 @@ leaflet() |>
   )
 
 ```
+
+::: callout-note
+Haciendo click sobre un polígono de la cuenca se puede observar su nombre.
+:::
+
+
+
 
 ## Trabajos con Programación en R
 

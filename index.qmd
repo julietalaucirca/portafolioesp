@@ -15,12 +15,19 @@ lang: es
 
 <img src="foto_cv.jpg" width="200"/>
 
+## Contacto
+
+Las vías de comunicación por las cuales contactarse son:
+
+-   [Linkedin](https://www.linkedin.com/in/julieta-laucirica/)
+-   Mail: julieta.laucirica\@gmail.com
+-   Teléfono: +(506) 8664-8591
+
 ## Introducción
 
 De Bahía Blanca, Argentina. Actualmente residiendo en San José, Costa Rica.
 
 Soy geógrafa, egresada de la Universidad Nacional del Sur (2009-2018). En 2014, fui beneficiada con la prestigiosa beca "Líderes Emergentes de las Américas"([ELAP](https://www.educanada.ca/scholarships-bourses/can/institutions/elap-pfla.aspx?lang=eng)) de Canadá lo que me permitió realizar un cuatrimestre en la Université du Québec à Montréal, en la ciudad de Montreal. Entre 2015 y 2024, residí en la Ciudad Autónoma de Buenos Aires, donde desarrollé mi experiencia profesional en el campo de los Sistemas de Información Geográfica (GIS) y la docencia a nivel secundario. Mi experiencia más destacada fue en el Instituto Geográfico Nacional, donde trabajé entre 2018 y 2024.
-
 
 Mi vínculo con Costa Rica se remonta a mi infancia. Entre 2002 y 2006, crecí en la localidad de Puerto Viejo, Limón, y asistí a la Escuela Complementaria de Cahuita, una etapa que marcó mi interés por los territorios y los recursos naturales. Actualmente, me encuentro en San José, donde estoy cursando la Maestría en Gestión de Recursos Hídricos para Latinoamérica y el Caribe, en la Universidad de Costa Rica, como becaria del Servicio Alemán de Intercambio Académico ([DAAD](https://www.daad-costa-rica.org/es/)).
 
@@ -40,7 +47,6 @@ Aunque mi especialización está centrada en los recursos hídricos, valoro la d
 
 A continuación, podrás encontrar un resumen de las herramientas con las que trabajo y las áreas en las que me estoy especializando.
 
-
 ## Herramientas utilizadas en R
 
 En el siguiente bloque de código se muestran la mayoría de los paquetes ráster que utilizo en R, tanto para este proyecto como en general.
@@ -52,19 +58,22 @@ En el siguiente bloque de código se muestran la mayoría de los paquetes ráste
 #|collapse: true
 
 # Paquetes geoespaciales
-library (terra)
-library (geodata)
-library (leaflet)
-library (sf)
-library (spData)
+suppressPackageStartupMessages({
+  library(terra)
+  library(geodata)
+  library(leaflet)
+  library(sf)
+  library(spData)
+})
 
 # Paquetes de visualización y manejo de datos
-library (plotly)
-library (ggplot2)
-library(RColorBrewer)
+suppressPackageStartupMessages({
+  library(plotly)
+  library(ggplot2)
+  library(RColorBrewer)
+})
 
 ```
-
 
 ## Trabajo con Sistemas de Información Geográfica
 
@@ -76,25 +85,81 @@ El trabajo con Sistemas de Información puede ser con información geoespacial r
 
 Partiendo de un Modelo de Elevación Digital, en este caso para la cuenca del Río Tárcoles. Los siguientes procesos se realizaron con el software QGIS 3.34 utilizando las herramientas: Fill Sinks, Slope, Reclasificación ráster y Channe Network and Drainage Basins. Dichas operaciones pueden replicarse en ArcGIS Pro.
 
-::: image-grid
-<img src="fill sinks.png" alt="Fill Sinks" width="300"/> 1. Herramienta Fill Sinks utilizada para eliminar sumideros en el DEM. Es una herramienta de corrección.
+::::: image-grid
+<figure>
 
-<img src="hillshade.png" alt="Hillshade" width="300"/> 2. Herramienta Hillshade, utilizada para resaltar las elevaciones del DEM según la orientación de la luz solar.
+<img src="fill sinks.png" alt="Fill Sinks" width="700"/>
 
-<img src="pendientes.png" alt="Pendientes" width="300"/> 3. Creación de ráster de pendientes con la herramienta Slope.
+<figcaption>
 
-<img src="clasificacion pendientes.png" alt="Clasificación de Pendientes" width="300"/> 4. Clasificación de pendientes mediante clasificación ráster.
+1.  Herramienta Fill Sinks utilizada para eliminar sumideros en el DEM. Es una herramienta de corrección.
 
-<img src="cuencas y cursos de agua.png" alt="Cuencas y Cursos de Agua" width="300"/> 5. Delimitación de cuencas y trazado de cursos de agua
+    </figcaption>
+
+    </figure>
+
+<figure>
+
+<img src="hillshade.png" alt="Hillshade" width="700"/>
+
+<figcaption>
+
+2.  Herramienta Hillshade, utilizada para resaltar las elevaciones del DEM según la orientación de la luz solar.
+
+    </figcaption>
+
+    </figure>
+
+<figure>
+
+<img src="pendientes.png" alt="Pendientes" width="700"/>
+
+<figcaption>
+
+3.  Creación de ráster de pendientes con la herramienta Slope.
+
+    </figcaption>
+
+    </figure>
+
+<figure>
+
+<img src="clasificacion pendientes.png" alt="Clasificación de Pendientes" width="700"/>
+
+<figcaption>
+
+4.  Clasificación de pendientes mediante clasificación ráster.
+
+    </figcaption>
+
+    </figure>
+
+<figure>
+
+<img src="cuencas y cursos de agua.png" alt="Cuencas y Cursos de Agua" width="700"/>
+
+<figcaption>
+
+5.  Delimitación de cuencas y trazado de cursos de agua.
+
+    </figcaption>
+
+    </figure>
+
 :::
 
 #### Ejemplos de procesamiento de información ráster
 
 Algunos procesamientos realizados recientemente tienen relación con los resultados que se pueden obtener utilizando la calculadora ráster de un Sistema de Información Geográfico.
 
--   NDVI (Indice de Vegetación de Diferencia Normalizada). Utiliza las bandas de Infrarrojo cercano y del rojo con la siguiente fórmula $$NDVI= (NIR-ROJO)/(NIR+ROJO)$$
+-   NDVI (Indice de Vegetación de Diferencia Normalizada). El NDVI obtiene valores entre -1 y 1.Utiliza las bandas de Infrarrojo cercano y del rojo con la siguiente fórmula $$NDVI= (NIR-ROJO)/(NIR+ROJO)$$
 
-    El NDVI obtiene valores entre -1 y 1. Los valores negativos más cercanos a -1 indican agua, nubes y/o nieve. Los valores alrededor de 0 indican suelo desnudo, rocas o arena. Entre 0.2 y 0.3 señalan pasturas y arbustos. Por ultimo, los valores mayores a 0.6 muestran bosques húmedos o tropicales.
+| **Valor NDVI** |    **Tipo de cobertura**    |
+|:--------------:|:---------------------------:|
+|  Cercano a -1  |    Agua, nubes y/o nieve    |
+| Alrededor de 0 | Suelo desnudo, rocas, arena |
+|    0,2-0,3     |     Pasturas, arbustos      |
+|  Mayor a 0,6   |   Bosque húmedo, tropical   |
 
 ```{r}
 #| label: cargatiff2
@@ -146,8 +211,6 @@ leaflet() |>
     overlayGroups = c("NDVI")
   )
 ```
-
-
 
 -   Escurrimiento de una cuenca. Partiendo de información ráster de precipitaciones y altitud se pudo estimar mediante un flujo de operaciones en la calculadora ráster. En este caso se realizó el cálculo del escurrimiento en ArcGIS Pro, para la cuenca del Río Bananito, en la provincia de Limón, Costa Rica. Los óvalos celestes representan los *inputs*, de precipitaciones y altura. Los cuadros amarillos representan los cálculos realizados en la calculadora ráster con las fórmulas correspondientes para el resultado buscado. Por último los óvalos verdes representan los TIF que resultan del procesamiento en la calculadora ráster.
 
@@ -281,12 +344,61 @@ leaflet() |>
     opacity = 0.6,
     group = "Temperatura"
   ) |>
+  addLegend(
+    title = "DEM",
+    values = values(dem_bananito),
+    pal = colores_dem,
+    position = "bottomright",
+    group = "DEM"
+  ) |>    
+  addLegend(
+    title = "Promedio anual precipitaciones",
+    values = values(precipitacion),
+    pal = colores_precipitacion,
+    position = "bottomright",
+    group = "Precipitación"
+  ) |>     
+  addLegend(
+    title = "Escurrimiento (mm)",
+    values = values(escurrimiento_bananito),
+    pal = colores_escur,
+    position = "bottomleft",
+    group = "Escurrimiento"
+  ) |>  
+  addLegend(
+    title = "Evap.trans. Real",
+    values = values(evapotran_real),
+    pal = colores_evReal,
+    position = "bottomleft",
+    group = "Evapotranspiración Real"
+  ) |>
+  addLegend(
+    title = "Evapo. trans. Potencial",
+    values = values(evapotran_poten),
+    pal = colores_evpot,
+    position = "bottomleft",
+    group = "Evapotranspiración Potencial"
+  ) |>
+  addLegend(
+    title = "Temperatura (C°)",
+    values = values(temperatura),
+    pal = colores_temp,
+    position = "bottomleft",
+    group = "Temperatura"
+  ) |>
   addLayersControl(
-    baseGroups = c("Mapa general", "Mapa blanco"),
+    baseGroups = c("Imágenes satelitales", "Mapa blanco"),
     overlayGroups = c("DEM","Precipitación","Escurrimiento","Evapotranspiración Real", "Evapotranspiración Potencial", "Temperatura" )
-  )
-  
+  ) |>  
+  hideGroup("Temperatura") |>
+  hideGroup("Precipitación")|>
+  hideGroup("Evapotranspiración Potencial")|>
+  hideGroup("Evapotranspiración Real")
 ```
+
+::: callout-note
+Tener en cuenta que por defecto, para no sobrecargar de información el mapa, no se ven todas las capas. Para visualizar la capa de interés, se pueden activar y desactivar manualmente en el ícono superior derecho de "Capas".
+:::
 
 #### Visualización de datos en un mapa
 
@@ -399,9 +511,6 @@ leaflet() |>
 Haciendo click sobre un polígono de cuenca se puede ver su nombre.
 :::
 
-
-
-
 ## Trabajos con Programación en R
 
 Mis conocimientos en R se consolidaron a través del curso Programación en R, cursado como parte de la Maestría en Gestión Integrada de Recursos Hídricos. A continuación, presento los enlaces a los trabajos realizados durante este curso, los cuales ilustran el uso de diversas herramientas y el análisis de datos aplicados a temáticas ambientales.
@@ -420,10 +529,3 @@ En el presente, además de fortalecer y profundizar mis conocimientos en las her
 
 Mis objetivos profesionales se centran en contribuir activamente al desarrollo de proyectos institucionales, comunitarios e individuales. Aspiro a aplicar mis conocimientos científicos y técnicos para diseñar soluciones innovadoras y sostenibles que aborden desafíos territoriales y ambientales. Estos objetivos están guiados por tres valores fundamentales: creatividad, claridad y compromiso con la innovación.
 
-## Contacto
-
-Las vías de comunicación por las cuales contactarse son:
-
-- [Linkedin](https://www.linkedin.com/in/julieta-laucirica/)
-- Mail: julieta.laucirica@gmail.com
-- Teléfono: +(506) 8664-8591

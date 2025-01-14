@@ -1,9 +1,9 @@
 ---
 title: "Portfolio- Geógrafa y Analista GIS"
 author: "Julieta Laucirica"
-toc: true
 format:
   html:
+    toc: true
     code-fold: true
     theme: minty
     fontcolor: "#212529" 

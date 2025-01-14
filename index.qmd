@@ -1,9 +1,9 @@
 ---
 title: "Portfolio- Geógrafa y Analista GIS"
 author: "Julieta Laucirica"
+toc: true
 format:
   html:
-    toc: true
     code-fold: true
     theme: minty
     fontcolor: "#212529" 
@@ -79,13 +79,12 @@ suppressPackageStartupMessages({
 
 El trabajo con Sistemas de Información puede ser con información geoespacial ráster y vectorial. La información ráster, de característica contínua puede contener información diversa: altitud (DEM), vegetación (NDVI), temperaturas, precipitaciones. A partir de estos datos se pueden realizar geoprocesos como calcular pendientes, comparar coberturas vegetales y otros usos del suelo en el transcurso del tiempo. En cuanto a datos climáticos, se puede utilizar fuentes actuales, así como utilizar modelos futuros. En cuanto a la información vectorial, se observan en forma de puntos, líneas y polígonos y también, abarca una diversidad de temáticas que se pueden representar.
 
-### Ejemplos hechos en Sistemas de Información Geográfica
 
-#### Modelos de elevación digital y su procesamiento
+### Modelos de elevación digital y su procesamiento
 
 Partiendo de un Modelo de Elevación Digital, en este caso para la cuenca del Río Tárcoles. Los siguientes procesos se realizaron con el software QGIS 3.34 utilizando las herramientas: Fill Sinks, Slope, Reclasificación ráster y Channe Network and Drainage Basins. Dichas operaciones pueden replicarse en ArcGIS Pro.
 
-::::: image-grid
+
 <figure>
 
 <img src="fill sinks.png" alt="Fill Sinks" width="700"/>
@@ -146,9 +145,8 @@ Partiendo de un Modelo de Elevación Digital, en este caso para la cuenca del R�
 
     </figure>
 
-:::
 
-#### Ejemplos de procesamiento de información ráster
+### Ejemplos adicionales de procesamiento de información ráster
 
 Algunos procesamientos realizados recientemente tienen relación con los resultados que se pueden obtener utilizando la calculadora ráster de un Sistema de Información Geográfico.
 
@@ -400,7 +398,7 @@ leaflet() |>
 Tener en cuenta que por defecto, para no sobrecargar de información el mapa, no se ven todas las capas. Para visualizar la capa de interés, se pueden activar y desactivar manualmente en el ícono superior derecho de "Capas".
 :::
 
-#### Visualización de datos en un mapa
+## Visualización de datos en un mapa
 
 Además de la información proveniente de carpetas locales, se pueden utilizar datos provenientes de paquetes de R como es el caso de Geodata. A continuación se muestra un ejemplo de carga de datos ráster proveniente de Geodata y un shapefile proveniente de un archivo local, visualizado en Leaflet.
 
